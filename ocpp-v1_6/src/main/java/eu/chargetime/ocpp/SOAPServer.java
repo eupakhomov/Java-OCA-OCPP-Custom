@@ -71,7 +71,7 @@ public class SOAPServer implements IServerAPI {
     /**
      * Flag if connection is closed.
      *
-     * @return true if connection is closed
+     * @return true if connection was closed or not opened
      */
     @Override
     public boolean isClosed() {

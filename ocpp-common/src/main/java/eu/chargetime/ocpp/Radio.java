@@ -46,6 +46,8 @@ public interface Radio {
 
     /**
      * If connection is closed.
+     *
+     * @return true if connection is closed or was not opened
      */
     boolean isClosed();
 }
