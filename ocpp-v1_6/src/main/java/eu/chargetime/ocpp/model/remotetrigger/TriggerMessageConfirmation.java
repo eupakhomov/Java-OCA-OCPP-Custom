@@ -73,11 +73,4 @@ public class TriggerMessageConfirmation implements Confirmation {
     public boolean validate() {
         return this.status != null;
     }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("status", status)
-                .toString();
-    }
 }
