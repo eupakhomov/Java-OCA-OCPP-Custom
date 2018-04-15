@@ -24,5 +24,5 @@ package eu.chargetime.ocpp;/*
     SOFTWARE.
  */
 
-public class NotConnectedException extends RuntimeException {
+public class NotConnectedException extends Exception {
 }

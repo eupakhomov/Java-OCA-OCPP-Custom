@@ -43,5 +43,5 @@ public interface IServerAPI {
 
     boolean isClosed();
 
-    CompletionStage<Confirmation> send(UUID session, Request request) throws OccurenceConstraintException, UnsupportedFeatureException;
+    CompletionStage<Confirmation> send(UUID session, Request request) throws OccurenceConstraintException, UnsupportedFeatureException, NotConnectedException;
 }

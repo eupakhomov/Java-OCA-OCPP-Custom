@@ -169,7 +169,7 @@ public class Server {
      * @throws UnsupportedFeatureException Thrown if the feature isn't among the list of supported featured.
      * @throws OccurenceConstraintException Thrown if the request isn't valid.
      */
-    public CompletableFuture<Confirmation> send(UUID sessionIndex, Request request) throws UnsupportedFeatureException, OccurenceConstraintException {
+    public CompletableFuture<Confirmation> send(UUID sessionIndex, Request request) throws UnsupportedFeatureException, OccurenceConstraintException, NotConnectedException {
         Optional<Feature> featureOptional = featureRepository.findFeature(request);
         if (!featureOptional.isPresent()) {
             throw new UnsupportedFeatureException();
