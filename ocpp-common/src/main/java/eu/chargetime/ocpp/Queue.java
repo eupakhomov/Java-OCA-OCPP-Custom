@@ -2,7 +2,7 @@ package eu.chargetime.ocpp;
 
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.utilities.Objects;
-import eu.chargetime.ocpp.utilities.Timer;
+import eu.chargetime.ocpp.utilities.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,12 +58,12 @@ public class Queue
      * @return a unique identifier used to fetch the request.
      */
     public String store(Request request) {
-        Timer timer = Timer.started();
+        Stopwatch stopwatch = Stopwatch.createStarted();
 
         String ticket = UUID.randomUUID().toString();
         requestQueue.put(ticket, request);
 
-        logger.debug("Queue size: {}, store time: {}", requestQueue.size(), timer.stop());
+        logger.debug("Queue size: {}, store time: {}", requestQueue.size(), stopwatch.stop());
 
         return ticket;
     }
@@ -77,13 +77,13 @@ public class Queue
      * @return the optional with stored {@link Request}
      */
     public Optional<Request> restoreRequest(String ticket) {
-        Timer timer = Timer.started();
+        Stopwatch stopwatch = Stopwatch.createStarted();
 
         try {
             Request request = requestQueue.get(ticket);
             requestQueue.remove(ticket);
 
-            logger.debug("Queue size: {}, store time: {}", requestQueue.size(), timer.stop());
+            logger.debug("Queue size: {}, store time: {}", requestQueue.size(), stopwatch.stop());
 
             return Optional.ofNullable(request);
         } catch (Exception ex) {
