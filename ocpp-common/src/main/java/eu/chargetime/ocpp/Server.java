@@ -47,8 +47,9 @@ public class Server {
 
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
+    public static final int INITIAL_SESSIONS_NUMBER = 1000;
+
     private Map<UUID, ISession> sessions;
-    private Map<ISession, UUID> sesssionsToUUIDs;
     private Listener listener;
     private final IFeatureRepository featureRepository;
     private final IPromiseRepository promiseRepository;
@@ -62,8 +63,7 @@ public class Server {
         this.listener = listener;
         this.featureRepository = featureRepository;
         this.promiseRepository = promiseRepository;
-        this.sessions = new ConcurrentHashMap<>(1000);
-        this.sesssionsToUUIDs = new ConcurrentHashMap<>(1000);
+        this.sessions = new ConcurrentHashMap<>(INITIAL_SESSIONS_NUMBER);
     }
 
     /**
@@ -120,7 +120,6 @@ public class Server {
                     if(sessionIdOptional.isPresent()) {
                         serverEvents.lostSession(sessionIdOptional.get());
                         sessions.remove(session.getSessionId());
-                        sesssionsToUUIDs.remove(session);
                     } else {
                         logger.warn("Active session not found");
                     }
@@ -133,8 +132,7 @@ public class Server {
             });
 
             sessions.put(session.getSessionId(), session);
-            sesssionsToUUIDs.put(session, session.getSessionId());
-
+            
             Optional<UUID> sessionIdOptional = getSessionID(session);
             if(sessionIdOptional.isPresent()) {
                 serverEvents.newSession(sessionIdOptional.get(), information);
@@ -150,7 +148,7 @@ public class Server {
             return Optional.empty();
         }
 
-        return Optional.of(sesssionsToUUIDs.get(session));
+        return Optional.of(session.getSessionId());
     }
 
     /**
@@ -193,8 +191,6 @@ public class Server {
         session.sendRequest(featureOptional.get().getAction(), request, id);
         return promise;
     }
-
-
 
     /**
      * Close connection to a client

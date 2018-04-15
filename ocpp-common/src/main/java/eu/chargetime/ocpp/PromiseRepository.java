@@ -50,7 +50,6 @@ public class PromiseRepository implements IPromiseRepository {
     public CompletableFuture<Confirmation> createPromise(String uniqueId) {
         CompletableFuture<Confirmation> promise = new CompletableFuture<>();
         promises.put(uniqueId, promise);
-
         return promise;
     }
 
