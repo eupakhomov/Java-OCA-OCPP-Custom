@@ -132,7 +132,7 @@ public class Server {
             });
 
             sessions.put(session.getSessionId(), session);
-            
+
             Optional<UUID> sessionIdOptional = getSessionID(session);
             if(sessionIdOptional.isPresent()) {
                 serverEvents.newSession(sessionIdOptional.get(), information);
