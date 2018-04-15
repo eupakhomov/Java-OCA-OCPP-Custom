@@ -133,6 +133,9 @@ public class WebSocketTransmitter implements Transmitter
     @Override
     public void disconnect()
     {
+        if(client == null) {
+            return;
+        }
         try {
             client.closeBlocking();
         } catch (Exception ex) {
