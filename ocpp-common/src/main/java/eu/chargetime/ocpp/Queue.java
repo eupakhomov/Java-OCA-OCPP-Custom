@@ -85,7 +85,7 @@ public class Queue
 
             logger.debug("Queue size: {}, store time: {}", requestQueue.size(), timer.stop());
 
-            return Optional.of(request);
+            return Optional.ofNullable(request);
         } catch (Exception ex) {
             logger.warn("restoreRequest({}) failed", ticket, ex);
         }

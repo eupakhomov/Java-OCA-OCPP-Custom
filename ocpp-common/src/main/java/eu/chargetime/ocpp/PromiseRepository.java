@@ -60,7 +60,7 @@ public class PromiseRepository implements IPromiseRepository {
      * @return optional of call back {@link CompletableFuture}
      */
     public Optional<CompletableFuture<Confirmation>> getPromise(String uniqueId) {
-        return Optional.of(promises.get(uniqueId));
+        return Optional.ofNullable(promises.get(uniqueId));
     }
 
     /**
