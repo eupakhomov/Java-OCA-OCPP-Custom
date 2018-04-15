@@ -3,7 +3,7 @@ package eu.chargetime.ocpp;
 import eu.chargetime.ocpp.feature.Feature;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
-import eu.chargetime.ocpp.utilities.Objects;
+import eu.chargetime.ocpp.utilities.MoreObjects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -232,17 +232,17 @@ public class Session implements ISession {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Session session = (Session) o;
-        return Objects.equals(sessionId, session.sessionId);
+        return MoreObjects.equals(sessionId, session.sessionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sessionId);
+        return MoreObjects.hash(sessionId);
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("sessionId", sessionId)
                 .add("queue", queue)
                 .add("featureRepository", featureRepository)

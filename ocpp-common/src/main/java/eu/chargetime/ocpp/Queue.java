@@ -1,7 +1,7 @@
 package eu.chargetime.ocpp;
 
 import eu.chargetime.ocpp.model.Request;
-import eu.chargetime.ocpp.utilities.Objects;
+import eu.chargetime.ocpp.utilities.MoreObjects;
 import eu.chargetime.ocpp.utilities.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +94,7 @@ public class Queue
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("requestQueue", requestQueue)
                 .toString();
     }

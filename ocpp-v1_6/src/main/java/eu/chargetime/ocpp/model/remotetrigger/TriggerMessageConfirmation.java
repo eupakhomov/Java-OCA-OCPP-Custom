@@ -1,7 +1,7 @@
 package eu.chargetime.ocpp.model.remotetrigger;
 
 import eu.chargetime.ocpp.model.Confirmation;
-import eu.chargetime.ocpp.utilities.Objects;
+import eu.chargetime.ocpp.utilities.MoreObjects;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -76,7 +76,7 @@ public class TriggerMessageConfirmation implements Confirmation {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("status", status)
                 .toString();
     }

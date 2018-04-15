@@ -29,7 +29,7 @@ import eu.chargetime.ocpp.feature.Feature;
 import eu.chargetime.ocpp.feature.profile.Profile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
-import eu.chargetime.ocpp.utilities.Objects;
+import eu.chargetime.ocpp.utilities.MoreObjects;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +98,7 @@ public class FeatureRepository implements IFeatureRepository {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper("FeatureRepository")
+        return MoreObjects.toStringHelper("FeatureRepository")
                 .add("featureList", featureList)
                 .toString();
     }
