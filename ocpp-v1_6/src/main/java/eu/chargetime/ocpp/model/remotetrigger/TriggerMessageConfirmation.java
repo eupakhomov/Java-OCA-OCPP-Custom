@@ -1,7 +1,6 @@
 package eu.chargetime.ocpp.model.remotetrigger;
 
 import eu.chargetime.ocpp.model.Confirmation;
-import eu.chargetime.ocpp.utilities.MoreObjects;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
