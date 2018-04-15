@@ -119,7 +119,7 @@ public class Server {
                     Optional<Serializable> sessionIdOptional = getSessionID(session);
                     if(sessionIdOptional.isPresent()) {
                         serverEvents.lostSession(sessionIdOptional.get());
-                        sessions.remove(session.getSessionId());
+                        sessions.remove(sessionIdOptional.get());
                     } else {
                         logger.warn("Active session not found");
                     }

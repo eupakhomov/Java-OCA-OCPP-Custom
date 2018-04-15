@@ -33,7 +33,7 @@ import eu.chargetime.ocpp.model.Request;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
-public class SOAPServer implements IServerAPI {
+public class SOAPServer implements IServerAPI<UUID> {
 
     private final FeatureRepository featureRepository;
     private final Server server;

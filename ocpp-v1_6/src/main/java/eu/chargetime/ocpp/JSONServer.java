@@ -40,7 +40,7 @@ import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
-public class JSONServer implements IServerAPI {
+public class JSONServer implements IServerAPI<UUID> {
 
     private static final Logger logger = LoggerFactory.getLogger(JSONServer.class);
 
