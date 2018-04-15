@@ -45,10 +45,12 @@ public class Queue
 {
 	private static final Logger logger = LoggerFactory.getLogger(Queue.class);
 
+	public static final int REQUEST_QUEUE_INITIAL_CAPACITY = 1000;
+
 	private Map<String, Request> requestQueue;
 
     public Queue () {
-        requestQueue = new ConcurrentHashMap<>(1000);
+        requestQueue = new ConcurrentHashMap<>(REQUEST_QUEUE_INITIAL_CAPACITY);
     }
 
     /**
