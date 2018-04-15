@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eu.chargetime.ocpp</groupId>
+        <artifactId>all</artifactId>
+        <version>5.0.4-SNAPSHOT</version>
+    </parent>
+
+    <groupId>eu.chargetime.ocpp</groupId>
+    <artifactId>ocpp-common</artifactId>
+
+    <name>Java-OCA-OCPP common</name>
+    <description>Implementation of Open Charge-Point Protocol common library.</description>
+
+
+    <licenses>
+      <license>
+        <name>MIT License</name>
+        <url>http://www.opensource.org/licenses/mit-license.php</url>
+      </license>
+    </licenses>
+
+    <developers>
+       <developer>
+         <name>Thomas Volden</name>
+         <email>tv@chargetime.eu</email>
+         <organization>chargetime.eu</organization>
+         <organizationUrl>http://www.chargetime.eu</organizationUrl>
+       </developer>
+        <developer>
+            <name>Eugene Pakhomov</name>
+            <email>eugene.pakhomov@ubitrcity.com</email>
+            <organization>ubitricity</organization>
+            <organizationUrl>http://www.ubitricity.com</organizationUrl>
+        </developer>
+     </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>ubidev-backend-deploy</id>
+            <url>https://artifactory.ubitricity.com/artifactory/ubiBackend</url>
+        </repository>
+        <snapshotRepository>
+            <id>ubidev-backend-snapshots</id>
+            <url>https://artifactory.ubitricity.com/artifactory/ubiBackend-SNAPSHOTS</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
+    <dependencies>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+                <version>3.5.1</version>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>2.2.1</version>
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                    <phase>verify</phase>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.9.1</version>
+              <executions>
+                <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

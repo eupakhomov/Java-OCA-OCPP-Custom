@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.chargetime.ocpp</groupId>
+    <artifactId>all</artifactId>
+    <version>5.0.4-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Java-OCA-OCPP</name>
+    <description>Implementation of Open Charge-Point Protocol common library.</description>
+    <url>https://gitlab.ubitricity.com/Backend/ocpp-ubi-protocol</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <developerConnection>scm:git:ssh://git@gitlab.ubitricity.com/Backend/ocpp-ubi-protocol.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Thomas Volden</name>
+            <email>tv@chargetime.eu</email>
+            <organization>chargetime.eu</organization>
+            <organizationUrl>http://www.chargetime.eu</organizationUrl>
+        </developer>
+        <developer>
+            <name>Eugene Pakhomov</name>
+            <email>eugene.pakhomov@ubitrcity.com</email>
+            <organization>ubitricity</organization>
+            <organizationUrl>http://www.ubitricity.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>ubidev-backend-deploy</id>
+            <url>https://artifactory.ubitricity.com/artifactory/ubiBackend</url>
+        </repository>
+        <snapshotRepository>
+            <id>ubidev-backend-snapshots</id>
+            <url>https://artifactory.ubitricity.com/artifactory/ubiBackend-SNAPSHOTS</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <modules>
+        <module>ocpp-common</module>
+        <module>ocpp-v1_6</module>
+        <module>ocpp-v1_6-test</module>
+    </modules>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+                <version>3.5.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+                <configuration>
+                    <sourceEncoding>UTF8</sourceEncoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- To set tags in SCM -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.9.5</version>
+                <configuration>
+                    <tag>${project.artifactId}-${project.version}</tag>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
