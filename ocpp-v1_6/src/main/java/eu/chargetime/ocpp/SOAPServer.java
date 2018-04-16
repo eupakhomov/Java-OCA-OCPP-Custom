@@ -33,10 +33,10 @@ import eu.chargetime.ocpp.model.Request;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
-public class SOAPServer implements IServerAPI<UUID> {
+public class SOAPServer implements IServerAPI {
 
     private final FeatureRepository featureRepository;
-    private final Server<UUID> server;
+    private final Server server;
     private final WebServiceListener listener;
 
     public SOAPServer(ServerCoreProfile coreProfile) {
@@ -44,7 +44,7 @@ public class SOAPServer implements IServerAPI<UUID> {
         featureRepository = new FeatureRepository();
         ServerSessionFactory sessionFactory = new ServerSessionFactory(featureRepository);
         this.listener = new WebServiceListener(sessionFactory);
-        server = new Server<>(this.listener, featureRepository, new PromiseRepository());
+        server = new Server(this.listener, featureRepository, new PromiseRepository());
         featureRepository.addFeatureProfile(coreProfile);
     }
 
@@ -59,7 +59,7 @@ public class SOAPServer implements IServerAPI<UUID> {
     }
 
     @Override
-    public void open(String host, int port, ServerEvents<UUID> serverEvents) {
+    public void open(String host, int port, ServerEvents serverEvents) {
         server.open(host, port, serverEvents);
     }
 

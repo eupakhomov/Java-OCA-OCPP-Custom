@@ -31,12 +31,12 @@ import eu.chargetime.ocpp.model.core.BootNotificationConfirmation;
 import eu.chargetime.ocpp.model.core.RegistrationStatus;
 import eu.chargetime.ocpp.utilities.TimeoutTimer;
 
-import java.io.Serializable;
+import java.util.UUID;
 
-public class TimeoutSessionDecorator<T extends Serializable> implements ISession<T> {
+public class TimeoutSessionDecorator implements ISession {
 
     private TimeoutTimer timeoutTimer;
-    private final ISession<T> session;
+    private final ISession session;
 
     /**
      * Handles required injections.
@@ -69,7 +69,7 @@ public class TimeoutSessionDecorator<T extends Serializable> implements ISession
     }
 
     @Override
-    public T getSessionId() {
+    public UUID getSessionId() {
         return session.getSessionId();
     }
 

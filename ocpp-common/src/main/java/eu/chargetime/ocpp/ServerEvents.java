@@ -27,9 +27,9 @@ package eu.chargetime.ocpp;
 
 import eu.chargetime.ocpp.model.SessionInformation;
 
-import java.io.Serializable;
+import java.util.UUID;
 
-public interface ServerEvents<T extends Serializable> {
-    void newSession(T sessionIndex, SessionInformation information);
-    void lostSession(T sessionIndex);
+public interface ServerEvents {
+    void newSession(UUID sessionIndex, SessionInformation information);
+    void lostSession(UUID sessionIndex);
 }

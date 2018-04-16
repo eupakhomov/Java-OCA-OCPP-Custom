@@ -25,10 +25,8 @@ package eu.chargetime.ocpp;
     SOFTWARE.
  */
 
-import java.io.Serializable;
-
-public interface Listener<T extends Serializable> {
-    void open(String hostname, int port, ListenerEvents<T> listenerEvents);
+public interface Listener {
+    void open(String hostname, int port, ListenerEvents listenerEvents);
     void close();
     boolean isClosed();
     void setAsyncRequestHandler(boolean async);

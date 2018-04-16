@@ -25,9 +25,7 @@ package eu.chargetime.ocpp;
     SOFTWARE.
  */
 
-import java.util.UUID;
-
-public class ServerSessionFactory implements IServerSessionFactory<UUID> {
+public class ServerSessionFactory implements IServerSessionFactory {
 
     private final IFeatureRepository featureRepository;
 
@@ -37,7 +35,7 @@ public class ServerSessionFactory implements IServerSessionFactory<UUID> {
     }
 
     @Override
-    public ISession<UUID> createSession(Communicator communicator) {
+    public ISession createSession(Communicator communicator) {
         AsyncPromiseFulfilerDecorator promiseFulfiler = new AsyncPromiseFulfilerDecorator(new SimplePromiseFulfiller());
         return new Session(communicator, new Queue(), promiseFulfiler, this.featureRepository);
     }

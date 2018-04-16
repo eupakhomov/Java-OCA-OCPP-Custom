@@ -29,19 +29,19 @@ import eu.chargetime.ocpp.feature.profile.Profile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 
-import java.io.Serializable;
+import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
-public interface IServerAPI<T extends Serializable> {
+public interface IServerAPI {
     void addFeatureProfile(Profile profile);
 
-    void closeSession(T session);
+    void closeSession(UUID session);
 
-    void open(String host, int port, ServerEvents<T> serverEvents);
+    void open(String host, int port, ServerEvents serverEvents);
 
     void close();
 
     boolean isClosed();
 
-    CompletionStage<Confirmation> send(T sessionIndex, Request request) throws OccurenceConstraintException, UnsupportedFeatureException, NotConnectedException;
+    CompletionStage<Confirmation> send(UUID sessionIndex, Request request) throws OccurenceConstraintException, UnsupportedFeatureException, NotConnectedException;
 }

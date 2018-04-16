@@ -42,12 +42,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WebSocketListener implements Listener<UUID> {
+public class WebSocketListener implements Listener {
     private static final Logger logger = LoggerFactory.getLogger(WebSocketListener.class);
 
     private static final int TIMEOUT_IN_MILLIS = 1;
 
-    private final IServerSessionFactory<UUID> sessionFactory;
+    private final IServerSessionFactory sessionFactory;
     private final List<Draft> drafts;
 
     // In seconds
@@ -59,14 +59,14 @@ public class WebSocketListener implements Listener<UUID> {
     private volatile boolean closed = true;
     private boolean handleRequestAsync;
 
-    public WebSocketListener(IServerSessionFactory<UUID> sessionFactory, Draft... drafts) {
+    public WebSocketListener(IServerSessionFactory sessionFactory, Draft... drafts) {
         this.sessionFactory = sessionFactory;
         this.drafts = Arrays.asList(drafts);
         this.sockets = new ConcurrentHashMap<>();
     }
 
     @Override
-    public void open(String hostname, int port, ListenerEvents<UUID> handler) {
+    public void open(String hostname, int port, ListenerEvents handler) {
         server = new WebSocketServer(new InetSocketAddress(hostname, port), drafts) {
             @Override
             public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
@@ -140,7 +140,7 @@ public class WebSocketListener implements Listener<UUID> {
     }
 
     public void setPingInterval(int interval) {
-        this.pingInterval = pingInterval;
+        this.pingInterval = interval;
 
         if(server != null) {
             server.setConnectionLostTimeout(interval);

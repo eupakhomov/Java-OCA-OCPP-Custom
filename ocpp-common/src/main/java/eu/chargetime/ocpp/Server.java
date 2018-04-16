@@ -6,9 +6,9 @@ import eu.chargetime.ocpp.model.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 /*
@@ -43,14 +43,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * Keeps track of outgoing requests.
  * Calls back when a confirmation is received.
  */
-public class Server<T extends Serializable> {
+public class Server {
 
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     public static final int INITIAL_SESSIONS_NUMBER = 1000;
 
-    private Map<T, ISession<T>> sessions;
-    private Listener<T> listener;
+    private Map<UUID, ISession> sessions;
+    private Listener listener;
     private final IFeatureRepository featureRepository;
     private final IPromiseRepository promiseRepository;
 
@@ -59,7 +59,7 @@ public class Server<T extends Serializable> {
      *
      * @param listener injected listener.
      */
-    public Server(Listener<T> listener, IFeatureRepository featureRepository, IPromiseRepository promiseRepository) {
+    public Server(Listener listener, IFeatureRepository featureRepository, IPromiseRepository promiseRepository) {
         this.listener = listener;
         this.featureRepository = featureRepository;
         this.promiseRepository = promiseRepository;
@@ -72,7 +72,7 @@ public class Server<T extends Serializable> {
      * @param port the port number of the server.
      * @param serverEvents Callback handler for server specific events.
      */
-    public void open(String hostname, int port, ServerEvents<T> serverEvents) {
+    public void open(String hostname, int port, ServerEvents serverEvents) {
 
         listener.open(hostname, port, (session, information) -> {
             session.accept(new SessionEvents() {
@@ -92,7 +92,7 @@ public class Server<T extends Serializable> {
                 public Confirmation handleRequest(Request request) throws UnsupportedFeatureException {
                     Optional<Feature> featureOptional = featureRepository.findFeature(request);
                     if(featureOptional.isPresent()) {
-                        Optional<T> sessionIdOptional = getSessionID(session);
+                        Optional<UUID> sessionIdOptional = getSessionID(session);
                         if(sessionIdOptional.isPresent()) {
                             return featureOptional.get().handleRequest(sessionIdOptional.get(), request);
                         } else {
@@ -116,7 +116,7 @@ public class Server<T extends Serializable> {
 
                 @Override
                 public void handleConnectionClosed() {
-                    Optional<T> sessionIdOptional = getSessionID(session);
+                    Optional<UUID> sessionIdOptional = getSessionID(session);
                     if(sessionIdOptional.isPresent()) {
                         serverEvents.lostSession(sessionIdOptional.get());
                         sessions.remove(sessionIdOptional.get());
@@ -133,7 +133,7 @@ public class Server<T extends Serializable> {
 
             sessions.put(session.getSessionId(), session);
 
-            Optional<T> sessionIdOptional = getSessionID(session);
+            Optional<UUID> sessionIdOptional = getSessionID(session);
             if(sessionIdOptional.isPresent()) {
                 serverEvents.newSession(sessionIdOptional.get(), information);
                 logger.debug("Session created: {}", session.getSessionId());
@@ -143,7 +143,7 @@ public class Server<T extends Serializable> {
         });
     }
 
-    private Optional<T> getSessionID(ISession<T> session) {
+    private Optional<UUID> getSessionID(ISession session) {
         if (!sessions.containsValue(session)) {
             return Optional.empty();
         }
@@ -167,7 +167,7 @@ public class Server<T extends Serializable> {
      * @throws UnsupportedFeatureException Thrown if the feature isn't among the list of supported featured.
      * @throws OccurenceConstraintException Thrown if the request isn't valid.
      */
-    public CompletableFuture<Confirmation> send(T sessionIndex, Request request) throws UnsupportedFeatureException, OccurenceConstraintException, NotConnectedException {
+    public CompletableFuture<Confirmation> send(UUID sessionIndex, Request request) throws UnsupportedFeatureException, OccurenceConstraintException, NotConnectedException {
         Optional<Feature> featureOptional = featureRepository.findFeature(request);
         if (!featureOptional.isPresent()) {
             throw new UnsupportedFeatureException();
@@ -177,7 +177,7 @@ public class Server<T extends Serializable> {
             throw new OccurenceConstraintException();
         }
 
-        ISession<T> session = sessions.get(sessionIndex);
+        ISession session = sessions.get(sessionIndex);
 
         if(session == null) {
             logger.warn("Session not found by index: {}", sessionIndex);
@@ -197,8 +197,8 @@ public class Server<T extends Serializable> {
      *
      * @param sessionIndex Session index of the client.
      */
-    public void closeSession(T sessionIndex) {
-        ISession<T> session = sessions.get(sessionIndex);
+    public void closeSession(UUID sessionIndex) {
+        ISession session = sessions.get(sessionIndex);
         if (session != null) {
             session.close();
         }

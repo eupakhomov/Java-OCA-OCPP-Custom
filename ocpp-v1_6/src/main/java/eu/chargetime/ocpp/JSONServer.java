@@ -40,7 +40,7 @@ import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
-public class JSONServer implements IServerAPI<UUID> {
+public class JSONServer implements IServerAPI {
 
     private static final Logger logger = LoggerFactory.getLogger(JSONServer.class);
 
@@ -48,7 +48,7 @@ public class JSONServer implements IServerAPI<UUID> {
             new Draft_6455(Collections.emptyList(),
                     Collections.singletonList(new Protocol("ocpp1.6")));
     private final WebSocketListener listener;
-    private final Server<UUID> server;
+    private final Server server;
     private final FeatureRepository featureRepository;
 
     /**
@@ -60,7 +60,7 @@ public class JSONServer implements IServerAPI<UUID> {
         featureRepository = new FeatureRepository();
         ServerSessionFactory sessionFactory = new ServerSessionFactory(featureRepository);
         this.listener = new WebSocketListener(sessionFactory, draftOcppOnly);
-        server = new Server<>(this.listener, featureRepository, new PromiseRepository());
+        server = new Server(this.listener, featureRepository, new PromiseRepository());
         featureRepository.addFeatureProfile(coreProfile);
     }
 
@@ -84,7 +84,7 @@ public class JSONServer implements IServerAPI<UUID> {
     }
 
     @Override
-    public void open(String host, int port, ServerEvents<UUID> serverEvents) {
+    public void open(String host, int port, ServerEvents serverEvents) {
         logger.info("Feature repository: {}", featureRepository);
 
         server.open(host, port, serverEvents);

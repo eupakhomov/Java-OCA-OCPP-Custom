@@ -39,23 +39,23 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-public class WebServiceListener implements Listener<UUID> {
+public class WebServiceListener implements Listener {
     private static final Logger logger = LoggerFactory.getLogger(WebServiceListener.class);
     private static final String WSDL_CENTRAL_SYSTEM = "eu/chargetime/ocpp/OCPP_CentralSystemService_1.6.wsdl";
-    private final IServerSessionFactory<UUID> sessionFactory;
+    private final IServerSessionFactory sessionFactory;
 
-    private ListenerEvents<UUID> events;
+    private ListenerEvents events;
     private String fromUrl = null;
     private HttpServer server;
     private boolean handleRequestAsync;
     private volatile boolean closed = true;
 
-    public WebServiceListener(IServerSessionFactory<UUID> sessionFactory) {
+    public WebServiceListener(IServerSessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public void open(String hostname, int port, ListenerEvents<UUID> listenerEvents) {
+    public void open(String hostname, int port, ListenerEvents listenerEvents) {
         events = listenerEvents;
         fromUrl = String.format("http://%s:%d", hostname, port);
         try {
@@ -113,7 +113,7 @@ public class WebServiceListener implements Listener<UUID> {
                 SOAPCommunicator communicator = new SOAPCommunicator(hostInfo, webServiceReceiver);
                 communicator.setToUrl(toUrl);
 
-                ISession<UUID> session = sessionFactory.createSession(communicator);
+                ISession session = sessionFactory.createSession(communicator);
                 TimeoutTimer timeoutTimer = new TimeoutTimer(INITIAL_TIMEOUT, () -> {
                     session.close();
                     chargeBoxes.remove(identity);

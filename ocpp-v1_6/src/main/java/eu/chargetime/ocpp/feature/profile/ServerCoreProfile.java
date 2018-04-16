@@ -31,8 +31,8 @@ import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
 
-import java.io.Serializable;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class ServerCoreProfile implements Profile {
 
@@ -67,7 +67,7 @@ public class ServerCoreProfile implements Profile {
     }
 
     @Override
-    public Confirmation handleRequest(Serializable sessionIndex, Request request) {
+    public Confirmation handleRequest(UUID sessionIndex, Request request) {
         Confirmation result = null;
 
         if (request instanceof AuthorizeRequest) {
