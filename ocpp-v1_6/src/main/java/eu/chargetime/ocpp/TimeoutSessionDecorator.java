@@ -33,10 +33,10 @@ import eu.chargetime.ocpp.utilities.TimeoutTimer;
 
 import java.io.Serializable;
 
-public class TimeoutSessionDecorator implements ISession {
+public class TimeoutSessionDecorator<T extends Serializable> implements ISession<T> {
 
     private TimeoutTimer timeoutTimer;
-    private final ISession session;
+    private final ISession<T> session;
 
     /**
      * Handles required injections.
@@ -69,7 +69,7 @@ public class TimeoutSessionDecorator implements ISession {
     }
 
     @Override
-    public Serializable getSessionId() {
+    public T getSessionId() {
         return session.getSessionId();
     }
 
