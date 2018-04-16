@@ -49,8 +49,8 @@ public class Server<T extends Serializable> {
 
     public static final int INITIAL_SESSIONS_NUMBER = 1000;
 
-    private Map<Serializable, ISession> sessions;
-    private Listener listener;
+    private Map<T, ISession<T>> sessions;
+    private Listener<T> listener;
     private final IFeatureRepository featureRepository;
     private final IPromiseRepository promiseRepository;
 
@@ -59,7 +59,7 @@ public class Server<T extends Serializable> {
      *
      * @param listener injected listener.
      */
-    public Server(Listener listener, IFeatureRepository featureRepository, IPromiseRepository promiseRepository) {
+    public Server(Listener<T> listener, IFeatureRepository featureRepository, IPromiseRepository promiseRepository) {
         this.listener = listener;
         this.featureRepository = featureRepository;
         this.promiseRepository = promiseRepository;
@@ -167,7 +167,7 @@ public class Server<T extends Serializable> {
      * @throws UnsupportedFeatureException Thrown if the feature isn't among the list of supported featured.
      * @throws OccurenceConstraintException Thrown if the request isn't valid.
      */
-    public CompletableFuture<Confirmation> send(Serializable sessionIndex, Request request) throws UnsupportedFeatureException, OccurenceConstraintException, NotConnectedException {
+    public CompletableFuture<Confirmation> send(T sessionIndex, Request request) throws UnsupportedFeatureException, OccurenceConstraintException, NotConnectedException {
         Optional<Feature> featureOptional = featureRepository.findFeature(request);
         if (!featureOptional.isPresent()) {
             throw new UnsupportedFeatureException();
@@ -177,7 +177,7 @@ public class Server<T extends Serializable> {
             throw new OccurenceConstraintException();
         }
 
-        ISession session = sessions.get(sessionIndex);
+        ISession<T> session = sessions.get(sessionIndex);
 
         if(session == null) {
             logger.warn("Session not found by index: {}", sessionIndex);
@@ -197,8 +197,8 @@ public class Server<T extends Serializable> {
      *
      * @param sessionIndex Session index of the client.
      */
-    public void closeSession(Serializable sessionIndex) {
-        ISession session = sessions.get(sessionIndex);
+    public void closeSession(T sessionIndex) {
+        ISession<T> session = sessions.get(sessionIndex);
         if (session != null) {
             session.close();
         }
