@@ -37,7 +37,7 @@ public interface IServerAPI<T extends Serializable> {
 
     void closeSession(T session);
 
-    void open(String host, int port, ServerEvents serverEvents);
+    void open(String host, int port, ServerEvents<T> serverEvents);
 
     void close();
 

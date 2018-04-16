@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Keeps track of outgoing requests.
  * Calls back when a confirmation is received.
  */
-public class Server {
+public class Server<T extends Serializable> {
 
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
@@ -72,7 +72,7 @@ public class Server {
      * @param port the port number of the server.
      * @param serverEvents Callback handler for server specific events.
      */
-    public void open(String hostname, int port, ServerEvents serverEvents) {
+    public void open(String hostname, int port, ServerEvents<T> serverEvents) {
 
         listener.open(hostname, port, (session, information) -> {
             session.accept(new SessionEvents() {
@@ -92,7 +92,7 @@ public class Server {
                 public Confirmation handleRequest(Request request) throws UnsupportedFeatureException {
                     Optional<Feature> featureOptional = featureRepository.findFeature(request);
                     if(featureOptional.isPresent()) {
-                        Optional<Serializable> sessionIdOptional = getSessionID(session);
+                        Optional<T> sessionIdOptional = getSessionID(session);
                         if(sessionIdOptional.isPresent()) {
                             return featureOptional.get().handleRequest(sessionIdOptional.get(), request);
                         } else {
@@ -116,7 +116,7 @@ public class Server {
 
                 @Override
                 public void handleConnectionClosed() {
-                    Optional<Serializable> sessionIdOptional = getSessionID(session);
+                    Optional<T> sessionIdOptional = getSessionID(session);
                     if(sessionIdOptional.isPresent()) {
                         serverEvents.lostSession(sessionIdOptional.get());
                         sessions.remove(sessionIdOptional.get());
@@ -133,7 +133,7 @@ public class Server {
 
             sessions.put(session.getSessionId(), session);
 
-            Optional<Serializable> sessionIdOptional = getSessionID(session);
+            Optional<T> sessionIdOptional = getSessionID(session);
             if(sessionIdOptional.isPresent()) {
                 serverEvents.newSession(sessionIdOptional.get(), information);
                 logger.debug("Session created: {}", session.getSessionId());
@@ -143,7 +143,7 @@ public class Server {
         });
     }
 
-    private Optional<Serializable> getSessionID(ISession session) {
+    private Optional<T> getSessionID(ISession<T> session) {
         if (!sessions.containsValue(session)) {
             return Optional.empty();
         }

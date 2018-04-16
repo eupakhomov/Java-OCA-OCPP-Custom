@@ -29,7 +29,7 @@ import eu.chargetime.ocpp.model.SessionInformation;
 
 import java.io.Serializable;
 
-public interface ServerEvents {
-    void newSession(Serializable sessionIndex, SessionInformation information);
-    void lostSession(Serializable sessionIndex);
+public interface ServerEvents<T extends Serializable> {
+    void newSession(T sessionIndex, SessionInformation information);
+    void lostSession(T sessionIndex);
 }
